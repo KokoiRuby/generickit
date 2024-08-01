@@ -80,6 +80,15 @@ func (suite *DeleteTestSuite) TestDeleteRange() {
 	assert.Equal(suite.T(), []int{1, 2}, suite.sl)
 }
 
+func (suite *DeleteTestSuite) TestDeleteVal() {
+	var err error
+	suite.sl, err = DeleteVal(suite.sl, 6)
+	assert.Error(suite.T(), err, ErrElemNotFound())
+
+	suite.sl, err = DeleteVal(suite.sl, 3)
+	assert.Equal(suite.T(), []int{1, 2, 4, 5}, suite.sl)
+}
+
 func TestDeleteTestSuite(t *testing.T) {
 	suite.Run(t, new(DeleteTestSuite))
 }
