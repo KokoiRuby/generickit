@@ -301,8 +301,54 @@ Check if `sl` contains `val`. This function is `O(len(sl))`.
 Example:
 
 ```go
-
+func ExampleContains() {
+	fmt.Println(Contains([]int{1, 2, 3, 4, 5}, 5))
+	// output:
+	// true
+}
 ```
 
+### Find
 
+> func Find
+
+```go
+func Find[T comparable](sl []T, val T) (idx int, isFound bool)
+```
+
+Find `val` in `sl`, returing 1st idx & flag. This function is `O(len(sl))`.
+
+Example:
+
+```go
+func ExampleFind() {
+	idx, isFound := Find([]int{1, 2, 3, 4, 5, 5}, 3)
+	fmt.Println(idx)
+	fmt.Println(isFound)
+	// output:
+	// 2
+	// true
+}
+```
+
+> func FindAll
+
+```go
+func FindAll[T comparable](sl []T, val T) (idx []int, isFound bool)
+```
+
+Find all val in sl, returning idx slice & flag. This function is `O(len(sl))`.
+
+Example:
+
+```go
+func ExampleFindAll() {
+	idxSlice, isFound := FindAll([]int{1, 2, 3, 4, 5, 5}, 5)
+	fmt.Println(idxSlice)
+	fmt.Println(isFound)
+	// output:
+	// [4 5]
+	// true
+}
+```
 

@@ -16,17 +16,4 @@
 
 package slice
 
-func Contains[T comparable](sl []T, val T) bool {
-	return ContainsFunc[T](sl, func(v T) bool {
-		return v == val
-	})
-}
-
-func ContainsFunc[T any](sl []T, match matchFunc[T]) bool {
-	for _, v := range sl {
-		if match(v) {
-			return true
-		}
-	}
-	return false
-}
+type matchFunc[T any] func(T) bool
