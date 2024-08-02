@@ -1,8 +1,10 @@
 ## Slice
 
-[Slice](https://pkg.go.dev/slices) is a dynamically-sized, flexible **view** into the elements of an fixed-length array.
+Slice is a dynamically-sized, flexible **view** into the elements of an fixed-length array.
 
-Before getting started, u need to import this package in src.
+stdlib [slices](https://pkg.go.dev/slices) also defines various functions useful with slices of any type.
+
+**Before getting started, u need to import these packages in src.**
 
 ```go
 import (
@@ -269,7 +271,7 @@ func ExampleShrink() {
 func Generator[T any](sl []T) <-chan T
 ```
 
-A Python featured yield-like generator implmented by Go using Channel.
+A Python featured yield-like generator implmented by Go using goroutine & channel.
 
 Example:
 
