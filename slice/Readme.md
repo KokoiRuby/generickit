@@ -316,7 +316,7 @@ func ExampleContains() {
 func Find[T comparable](sl []T, val T) (idx int, isFound bool)
 ```
 
-Find `val` in `sl`, returing 1st idx & flag. This function is `O(len(sl))`.
+Find `val` in `sl`, returing the 1st idx & flag. This function is `O(len(sl))`.
 
 Example:
 
@@ -327,6 +327,27 @@ func ExampleFind() {
 	fmt.Println(isFound)
 	// output:
 	// 2
+	// true
+}
+```
+
+> func FindLast
+
+```go
+func FindLast[T comparable](sl []T, val T) (idx int, isFound bool) {
+```
+
+Find `val` in `sl`, returing the last idx & flag. This function is `O(len(sl))`.
+
+Example:
+
+```go
+func ExampleFindLast() {
+	idx, isFound := Find([]int{1, 2, 3, 4, 5, 5}, 5)
+	fmt.Println(idx)
+	fmt.Println(isFound)
+	// output:
+	// 5
 	// true
 }
 ```

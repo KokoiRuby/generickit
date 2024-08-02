@@ -14,6 +14,6 @@ $ go get github.com/KokoiRuby/generickit@latest
 
 ### Links
 
-- slice: Insert, Delete, Aggregate, Reverse, Shirnk, Geneartor, Find, Contains
+- slice: Insert, Delete, Aggregate, Reverse, Shrink, Generator, Find, Contains, Find
 - linkedList: 
 - ...

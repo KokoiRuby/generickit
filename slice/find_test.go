@@ -42,6 +42,16 @@ func (suite *FindTestSuite) TestFind() {
 	assert.False(suite.T(), isFound)
 }
 
+func (suite *FindTestSuite) TestFindLast() {
+	idx, isFound := FindLast(suite.sl, 5)
+	assert.Equal(suite.T(), 5, idx)
+	assert.True(suite.T(), isFound)
+
+	idx, isFound = FindLast(suite.sl, 0)
+	assert.Equal(suite.T(), -1, idx)
+	assert.False(suite.T(), isFound)
+}
+
 func (suite *FindTestSuite) TestFindAll() {
 	idxSlice, isFound := FindAll(suite.sl, 5)
 	assert.Equal(suite.T(), []int{4, 5}, idxSlice)
@@ -58,6 +68,15 @@ func ExampleFind() {
 	fmt.Println(isFound)
 	// output:
 	// 2
+	// true
+}
+
+func ExampleFindLast() {
+	idx, isFound := Find([]int{1, 2, 3, 4, 5, 5}, 5)
+	fmt.Println(idx)
+	fmt.Println(isFound)
+	// output:
+	// 5
 	// true
 }
 

@@ -22,6 +22,12 @@ func Find[T comparable](sl []T, val T) (idx int, isFound bool) {
 	})
 }
 
+func FindLast[T comparable](sl []T, val T) (idx int, isFound bool) {
+	return FindLastFunc(sl, func(v T) bool {
+		return v == val
+	})
+}
+
 func FindAll[T comparable](sl []T, val T) (idx []int, isFound bool) {
 	return FindAllFunc(sl, func(v T) bool {
 		return v == val
@@ -32,6 +38,16 @@ func FindAll[T comparable](sl []T, val T) (idx []int, isFound bool) {
 func FindFunc[T any](slice []T, match matchFunc[T]) (idx int, isFound bool) {
 	for i, v := range slice {
 		if match(v) {
+			return i, true
+		}
+	}
+	return -1, false
+}
+
+// FindLastFunc accepts a anonymous func to match
+func FindLastFunc[T any](slice []T, match matchFunc[T]) (idx int, isFound bool) {
+	for i := len(slice) - 1; i >= 0; i-- {
+		if match(slice[i]) {
 			return i, true
 		}
 	}
