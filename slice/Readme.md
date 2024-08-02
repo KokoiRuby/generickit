@@ -288,7 +288,21 @@ func ExampleGenerator() {
 }
 ```
 
+### Contains
 
+> func Contains
+
+```go
+func Contains[T comparable](sl []T, val T) bool
+```
+
+Check if `sl` contains `val`. This function is `O(len(sl))`.
+
+Example:
+
+```go
+
+```
 
 
 
