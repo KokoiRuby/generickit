@@ -14,6 +14,7 @@ $ go get github.com/KokoiRuby/generickit@latest
 
 ### Links
 
-- slice: Insert, Delete, Aggregate, Reverse, Shrink, Generator, Find, Contains, Find
+- [slice](https://github.com/KokoiRuby/generickit/tree/main/slice): Insert, Delete, Aggregate, Reverse, Shrink, Generator, Find, Contains, Find, MapReduce
+- map: 
 - linkedList: 
 - ...

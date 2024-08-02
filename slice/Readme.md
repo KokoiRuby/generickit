@@ -250,10 +250,10 @@ Example:
 ```go
 func ExampleShrink() {
 	sl := make([]int, 100, 300)
-	sl = slice.Shrink(sl)
+	sl = slice.Shrink[int](sl)
 	fmt.Println(cap(sl))
 	sl = make([]int, 300, 480)
-	sl = slice.Shrink(sl)
+	sl = slice.Shrink[int](sl)
 	fmt.Println(cap(sl))
 	// output:
 	// 150
@@ -275,7 +275,7 @@ Example:
 
 ```go
 func ExampleGenerator() {
-	intGenerator := slice.Generator([]int{1, 2, 3})
+	intGenerator := slice.Generator[int]([]int{1, 2, 3})
 	fmt.Println(<-intGenerator)
 	fmt.Println(<-intGenerator)
 	fmt.Println(<-intGenerator)
@@ -302,7 +302,7 @@ Example:
 
 ```go
 func ExampleContains() {
-	fmt.Println(Contains([]int{1, 2, 3, 4, 5}, 5))
+	fmt.Println(slice.Contains[int]([]int{1, 2, 3, 4, 5}, 5))
 	// output:
 	// true
 }
@@ -322,7 +322,7 @@ Example:
 
 ```go
 func ExampleFind() {
-	idx, isFound := Find([]int{1, 2, 3, 4, 5, 5}, 3)
+	idx, isFound := slice.Find[int]([]int{1, 2, 3, 4, 5, 5}, 3)
 	fmt.Println(idx)
 	fmt.Println(isFound)
 	// output:
@@ -343,7 +343,7 @@ Example:
 
 ```go
 func ExampleFindLast() {
-	idx, isFound := Find([]int{1, 2, 3, 4, 5, 5}, 5)
+	idx, isFound := slice.Find[int]([]int{1, 2, 3, 4, 5, 5}, 5)
 	fmt.Println(idx)
 	fmt.Println(isFound)
 	// output:
@@ -364,12 +364,61 @@ Example:
 
 ```go
 func ExampleFindAll() {
-	idxSlice, isFound := FindAll([]int{1, 2, 3, 4, 5, 5}, 5)
+	idxSlice, isFound := slice.FindAll[int]([]int{1, 2, 3, 4, 5, 5}, 5)
 	fmt.Println(idxSlice)
 	fmt.Println(isFound)
 	// output:
 	// [4 5]
 	// true
+}
+```
+
+### MapReduce
+
+**MapReduce** is a programming model used for parallel processing of large datasets.
+
+- **Map Phase**: the input dataset is divided into smaller subsets, which are processed in parallel. Each subset is processed by a Map function, transforming it **into key-value pairs**.
+- **Reduce Phase**: In this stage, the key-value pairs produced by the Map phase are **aggregated based on keys**, and the values for the same key are merged to produce the final output.
+
+> func Map
+
+```go
+func Map[Src any, Dst any](src []Src, mapFunc func(src Src) Dst) []Dst
+```
+
+Map a type of `src` slice to another type of slice. This function is `O(len(src))`.
+
+Example:
+
+```go
+func ExampleMap() {
+	after := Map[int]([]int{1, 2, 3, 4, 5}, func(src int) string { 
+        return strconv.Itoa(src) 
+    })
+	fmt.Println(after)
+	// output:
+	// [1 2 3 4 5]
+}
+```
+
+> func FilterMap
+
+```go
+func FilterMap[Src any, Dst any](src []Src, mapFunc func(src Src) (dst Dst, filter bool)) []Dst
+```
+
+Map a type of `src` slice to another type of slice given a filter. This function is `O(len(src))`.
+
+Example:
+
+```go
+func ExampleFilterMap() {
+	after := FilterMap[int]([]int{1, 2, 3, 4, 5}, func(src int) (string, bool) { 
+        return strconv.Itoa(src), src >= 3 
+    })
+	fmt.Println(after)
+	// output:
+	// [3 4 5]
 }
 ```
 
