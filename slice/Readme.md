@@ -266,7 +266,7 @@ func ExampleShrink() {
 > func Generator
 
 ```go
-
+func Generator[T any](sl []T) <-chan T
 ```
 
 A Python featured yield-like generator implmented by Go using Channel.
@@ -274,7 +274,18 @@ A Python featured yield-like generator implmented by Go using Channel.
 Example:
 
 ```go
-
+func ExampleGenerator() {
+	intGenerator := slice.Generator([]int{1, 2, 3})
+	fmt.Println(<-intGenerator)
+	fmt.Println(<-intGenerator)
+	fmt.Println(<-intGenerator)
+	fmt.Println(<-intGenerator)
+	// output:
+	// 1
+	// 2
+	// 3
+	// 0
+}
 ```
 
 

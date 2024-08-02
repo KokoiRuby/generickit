@@ -17,6 +17,13 @@
 package slice
 
 // Generator yield-like
-func Generator[T any](sl []T) chan T {
-	return nil
+func Generator[T any](sl []T) <-chan T {
+	yield := make(chan T)
+	go func() {
+		defer close(yield)
+		for _, v := range sl {
+			yield <- v
+		}
+	}()
+	return yield
 }
