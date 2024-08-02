@@ -43,7 +43,7 @@ func (suite *GeneratorTestSuite) TestGenerator() {
 }
 
 func ExampleGenerator() {
-	intGenerator := Generator([]int{1, 2, 3})
+	intGenerator := Generator[int]([]int{1, 2, 3})
 	fmt.Println(<-intGenerator)
 	fmt.Println(<-intGenerator)
 	fmt.Println(<-intGenerator)

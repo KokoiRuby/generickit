@@ -38,7 +38,7 @@ func (suite *ContainsTestSuite) TestContains() {
 }
 
 func ExampleContains() {
-	fmt.Println(Contains([]int{1, 2, 3, 4, 5}, 5))
+	fmt.Println(Contains[int]([]int{1, 2, 3, 4, 5}, 5))
 	// output:
 	// true
 }

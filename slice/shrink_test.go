@@ -43,10 +43,10 @@ func (suite *ShrinkTestSuite) TestShrink() {
 
 func ExampleShrink() {
 	sl := make([]int, 100, 300)
-	sl = Shrink(sl)
+	sl = Shrink[int](sl)
 	fmt.Println(cap(sl))
 	sl = make([]int, 300, 480)
-	sl = Shrink(sl)
+	sl = Shrink[int](sl)
 	fmt.Println(cap(sl))
 	// output:
 	// 150

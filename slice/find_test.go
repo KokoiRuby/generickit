@@ -63,7 +63,7 @@ func (suite *FindTestSuite) TestFindAll() {
 }
 
 func ExampleFind() {
-	idx, isFound := Find([]int{1, 2, 3, 4, 5, 5}, 3)
+	idx, isFound := Find[int]([]int{1, 2, 3, 4, 5, 5}, 3)
 	fmt.Println(idx)
 	fmt.Println(isFound)
 	// output:
@@ -72,7 +72,7 @@ func ExampleFind() {
 }
 
 func ExampleFindLast() {
-	idx, isFound := Find([]int{1, 2, 3, 4, 5, 5}, 5)
+	idx, isFound := Find[int]([]int{1, 2, 3, 4, 5, 5}, 5)
 	fmt.Println(idx)
 	fmt.Println(isFound)
 	// output:
@@ -81,7 +81,7 @@ func ExampleFindLast() {
 }
 
 func ExampleFindAll() {
-	idxSlice, isFound := FindAll([]int{1, 2, 3, 4, 5, 5}, 5)
+	idxSlice, isFound := FindAll[int]([]int{1, 2, 3, 4, 5, 5}, 5)
 	fmt.Println(idxSlice)
 	fmt.Println(isFound)
 	// output:
