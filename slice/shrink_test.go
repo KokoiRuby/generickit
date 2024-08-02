@@ -1,6 +1,7 @@
 package slice
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"testing"
@@ -22,6 +23,18 @@ func (suite *ShrinkTestSuite) TestShrink() {
 	assert.Equal(suite.T(), 384, cap(suite.sl1))
 	suite.sl2 = Shrink(suite.sl2)
 	assert.Equal(suite.T(), 150, cap(suite.sl2))
+}
+
+func ExampleShrink() {
+	sl := make([]int, 100, 300)
+	sl = Shrink(sl)
+	fmt.Println(cap(sl))
+	sl = make([]int, 300, 480)
+	sl = Shrink(sl)
+	fmt.Println(cap(sl))
+	// output:
+	// 150
+	// 384
 }
 
 func TestShrinkTTestSuite(t *testing.T) {

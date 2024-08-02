@@ -1,6 +1,7 @@
 package slice
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"testing"
@@ -20,6 +21,13 @@ func (suite *ReverseTestSuite) SetupTest() {
 func (suite *ReverseTestSuite) TestReverse() {
 	assert.Equal(suite.T(), []int{5, 4, 3, 2, 1}, Reverse(suite.sl1))
 	assert.Equal(suite.T(), []int{6, 5, 4, 3, 2, 1}, Reverse(suite.sl2))
+}
+
+func ExampleReverse() {
+	res := Reverse[int]([]int{5, 4, 3, 2, 1})
+	fmt.Println(res)
+	// output:
+	// [1 2 3 4 5]
 }
 
 func TestReverseTestSuite(t *testing.T) {

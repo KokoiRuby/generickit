@@ -1,6 +1,7 @@
 package slice
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
 
@@ -55,6 +56,20 @@ func (suite *InsertTestSuite) TestInsertSlice() {
 	assert.NoError(suite.T(), err)
 	assert.Equal(suite.T(), []int{0, 1, 1, 0, 1, 2, 3, 4, 5}, suite.sl)
 
+}
+
+func ExampleInsert() {
+	res, _ := Insert[int]([]int{1, 2, 3}, 0, 1)
+	fmt.Println(res)
+	// Output:
+	// [1 0 2 3]
+}
+
+func ExampleInsertSlice() {
+	res, _ := InsertSlice[int]([]int{1, 2, 3}, []int{4, 5}, 1)
+	fmt.Println(res)
+	// Output:
+	// [1 4 5 2 3]
 }
 
 func TestInsertTTestSuite(t *testing.T) {

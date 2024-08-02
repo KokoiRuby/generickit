@@ -1,6 +1,7 @@
 package slice
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"testing"
@@ -87,6 +88,34 @@ func (suite *DeleteTestSuite) TestDeleteVal() {
 
 	suite.sl, err = DeleteVal(suite.sl, 3)
 	assert.Equal(suite.T(), []int{1, 2, 4, 5}, suite.sl)
+}
+
+func ExampleDelete() {
+	res, _ := Delete[int]([]int{1, 2, 3}, 1)
+	fmt.Println(res)
+	// output:
+	// [1 3]
+}
+
+func ExampleDeleteAfter() {
+	res, _ := DeleteAfter[int]([]int{1, 2, 3, 4, 5}, 2)
+	fmt.Println(res)
+	// output:
+	// [1 2]
+}
+
+func ExampleDeleteRange() {
+	res, _ := DeleteRange[int]([]int{1, 2, 3, 4, 5}, 3, 1)
+	fmt.Println(res)
+	// output:
+	// [1 5]
+}
+
+func ExampleDeleteVal() {
+	res, _ := DeleteVal[int]([]int{1, 2, 3, 4, 5}, 2)
+	fmt.Println(res)
+	// output:
+	// [1 3 4 5]
 }
 
 func TestDeleteTestSuite(t *testing.T) {

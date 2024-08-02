@@ -1,6 +1,7 @@
 package slice
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"testing"
@@ -25,6 +26,27 @@ func (suite *AggregateTestSuite) TestMin() {
 
 func (suite *AggregateTestSuite) TestSum() {
 	assert.Equal(suite.T(), 15, Sum(suite.sl))
+}
+
+func ExampleMax() {
+	res := Max[int]([]int{1, 2, 3, 4, 5})
+	fmt.Println(res)
+	// output:
+	// 5
+}
+
+func ExampleMin() {
+	res := Min[int]([]int{1, 2, 3, 4, 5})
+	fmt.Println(res)
+	// output:
+	// 1
+}
+
+func ExampleSum() {
+	res := Sum[int]([]int{1, 2, 3, 4, 5})
+	fmt.Println(res)
+	// output:
+	// 15
 }
 
 func TestAggregateTestSuite(t *testing.T) {
