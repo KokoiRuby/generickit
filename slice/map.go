@@ -16,20 +16,37 @@
 
 package slice
 
-func Map[Src any, Dst any](src []Src, mapFunc func(src Src) Dst) []Dst {
-	dst := make([]Dst, len(src))
-	for i, _ := range src {
-		dst[i] = mapFunc(src[i])
+import (
+	"golang.org/x/exp/constraints"
+)
+
+type Number interface {
+	constraints.Integer | constraints.Float
+}
+
+func Map[Src any, Dst any](src []Src, mapper func(src Src) Dst) []Dst {
+	dst := make([]Dst, 0)
+	for _, v := range src {
+		dst = append(dst, mapper(v))
 	}
 	return dst
 }
 
-func FilterMap[Src any, Dst any](src []Src, mapFunc func(src Src) (dst Dst, filter bool)) []Dst {
-	dst := make([]Dst, 0, len(src))
-	for i, _ := range src {
-		if v, ok := mapFunc(src[i]); ok {
-			dst = append(dst, v)
+func Filter[Src any, Dst any](src []Src, filter func(src Src) (dst Dst, filter bool)) []Dst {
+	dst := make([]Dst, 0)
+	for _, v := range src {
+		if val, ok := filter(v); ok {
+			dst = append(dst, val)
 		}
 	}
 	return dst
+}
+
+// Reduce usually for aggregation, Dst in Number type in order to support operators.
+func Reduce[Src any, Dst Number](src []Src, reducer func(src Src) Dst) Dst {
+	var sum Dst
+	for _, v := range src {
+		sum += reducer(v)
+	}
+	return sum
 }

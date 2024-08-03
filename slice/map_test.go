@@ -40,25 +40,49 @@ func (suite *MapTestSuite) TestMap() {
 	assert.Equal(suite.T(), []string{"1", "2", "3", "4", "5"}, after)
 }
 
-func (suite *MapTestSuite) TestFilterMap() {
-	after := FilterMap(suite.sl, func(src int) (dst string, filter bool) {
+func (suite *MapTestSuite) TestFilter() {
+	after := Filter(suite.sl, func(src int) (dst string, filter bool) {
 		return strconv.Itoa(src), src >= 3
 	})
 	assert.Equal(suite.T(), []string{"3", "4", "5"}, after)
 }
 
+func (suite *MapTestSuite) TestReduce1() {
+	after := Reduce(suite.sl, func(src int) int {
+		return src
+	})
+	assert.Equal(suite.T(), 15, after)
+}
+
+func (suite *MapTestSuite) TestReduce2() {
+	after := Reduce(suite.sl, func(src int) int {
+		if src > 3 {
+			return src
+		}
+		return 0
+	})
+	assert.Equal(suite.T(), 9, after)
+}
+
 func ExampleMap() {
-	after := Map[int]([]int{1, 2, 3, 4, 5}, func(src int) string { return strconv.Itoa(src) })
+	after := Map[int, string]([]int{1, 2, 3, 4, 5}, func(src int) string { return strconv.Itoa(src) })
 	fmt.Println(after)
 	// output:
 	// [1 2 3 4 5]
 }
 
-func ExampleFilterMap() {
-	after := FilterMap[int]([]int{1, 2, 3, 4, 5}, func(src int) (string, bool) { return strconv.Itoa(src), src >= 3 })
+func ExampleFilter() {
+	after := Filter[int, string]([]int{1, 2, 3, 4, 5}, func(src int) (string, bool) { return strconv.Itoa(src), src >= 3 })
 	fmt.Println(after)
 	// output:
 	// [3 4 5]
+}
+
+func ExampleReduce() {
+	after := Reduce[int, int]([]int{1, 2, 3, 4, 5}, func(src int) int { return src })
+	fmt.Println(after)
+	// output:
+	// 15
 }
 
 func TestMapTestSuite(t *testing.T) {
