@@ -388,13 +388,13 @@ func ExampleFindAll() {
 func Map[Src any, Dst any](src []Src, mapFunc func(src Src) Dst) []Dst
 ```
 
-Map a type of `src` slice to another type of slice. This function is `O(len(src))`.
+Map a `Src` type of `src` slice to another slice with type `Dst`. This function is `O(len(src))`.
 
 Example:
 
 ```go
 func ExampleMap() {
-	after := Map[int]([]int{1, 2, 3, 4, 5}, func(src int) string { 
+	after := slice.Map[int, string]([]int{1, 2, 3, 4, 5}, func(src int) string { 
         return strconv.Itoa(src) 
     })
 	fmt.Println(after)
@@ -403,24 +403,51 @@ func ExampleMap() {
 }
 ```
 
-> func FilterMap
+> func Filter
 
 ```go
-func FilterMap[Src any, Dst any](src []Src, mapFunc func(src Src) (dst Dst, filter bool)) []Dst
+func Filter[Src any, Dst any](src []Src, mapFunc func(src Src) (dst Dst, filter bool)) []Dst
 ```
 
-Map a type of `src` slice to another type of slice given a filter. This function is `O(len(src))`.
+Map a `Src` type of `src` slice to another slice with type `Dst` given a filter. This function is `O(len(src))`.
 
 Example:
 
 ```go
 func ExampleFilterMap() {
-	after := FilterMap[int]([]int{1, 2, 3, 4, 5}, func(src int) (string, bool) { 
+	after := slice.Filter[int, string]([]int{1, 2, 3, 4, 5}, func(src int) (string, bool) { 
         return strconv.Itoa(src), src >= 3 
     })
 	fmt.Println(after)
 	// output:
 	// [3 4 5]
+}
+```
+
+> func Reduce
+
+```go
+func Reduce[Src any, Dst Number](src []Src, reducer func(src Src) Dst) Dst
+```
+
+Reduce a `Src` type of `src` slice to a Dst type. This function is `O(len(src))`.
+
+Note: Reduce usually for **aggregation**, Dst in `Number` type in order to support operators.
+
+```go
+type Number interface {
+	constraints.Integer | constraints.Float
+}
+```
+
+Example:
+
+```go
+func ExampleReduce() {
+	after := Reduce[int, int]([]int{1, 2, 3, 4, 5}, func(src int) int { return src })
+	fmt.Println(after)
+	// output:
+	// 15
 }
 ```
 
