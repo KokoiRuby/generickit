@@ -444,7 +444,7 @@ Example:
 
 ```go
 func ExampleReduce() {
-	after := Reduce[int, int]([]int{1, 2, 3, 4, 5}, func(src int) int { return src })
+	after := slice.Reduce[int, int]([]int{1, 2, 3, 4, 5}, func(src int) int { return src })
 	fmt.Println(after)
 	// output:
 	// 15
