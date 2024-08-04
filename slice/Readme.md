@@ -235,7 +235,7 @@ func ExampleReverse() {
 }
 ```
 
-### Shirnk
+### Shrink
 
 Note: Golang [Slice](https://pkg.go.dev/slices) does not support shrinking primitively, it only supports growth where strategy: 2x for small slices (< 256) & 1.25x for large slices (>= 256).
 

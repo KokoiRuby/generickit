@@ -16,7 +16,7 @@
 
 package slice
 
-import "generickit"
+import "github.com/KokoiRuby/generickit"
 
 func Max[T generickit.RealNumber](sl []T) T {
 	res := sl[0]
