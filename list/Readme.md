@@ -14,8 +14,6 @@ import (
 
 List Interface:
 
-Note: **Add/Delete/ToSlice** actually generate/return a new slice, be careful in loop call.
-
 ```go
 type List[T any] interface {
 	// Get the element given idx, err if out of range
@@ -55,6 +53,8 @@ type List[T any] interface {
 
 Implmented by Go built-in slice.
 
+Note: **Add/Delete/ToSlice** actually generate/return a new slice, be careful in loop call.
+
 | func                                       | Time Complexity |
 | ------------------------------------------ | --------------- |
 | `Get(idx int) T`                           | O(1)            |
@@ -74,7 +74,7 @@ Implmented by Go built-in slice.
 func NewArrayList[T any](cap int) *ArrayList[T]
 ```
 
-Constructor given capacity.
+Constructor given capacity `cap`.
 
 Example:
 
@@ -88,7 +88,7 @@ l := list.NewArrayList[int](5)
 func NewArrayListFrom[T any](sl []T) *ArrayList[T]
 ```
 
-Constructor given a slice.
+Constructor given a slice `sl`.
 
 Example:
 
@@ -98,10 +98,53 @@ l := list.NewArrayListFrom[int]([]int{1, 2, 3, 4, 5})
 
 ### LinkedList
 
+A **circular** doubly linked list.
 
+Note: head/tail as **guard** node.
 
-### Doubly LinkedList
+```go
+// head(-1) ←→ 0 ←→ ... ←→ n-1 ←→ tail(n)
+//  ↑↓                             ↑↓
+//  |_______________________________|
+```
 
+| func                                       | Time Complexity |
+| ------------------------------------------ | --------------- |
+| `Get(idx int) T`                           | O(n)            |
+| `Append(ts ...T)`                          | O(1)            |
+| `Add(idx int, t T) error`                  | O(n)            |
+| `Set(idx int, t T)`                        | O(n)            |
+| `Delete(idx int) error`                    | O(n)            |
+| `Len() int`                                | O(1)            |
+| `Cap() int`                                | O(1)            |
+| `Range(fn func(idx int, t T) error) error` | O(n)            |
+| `ToSlice() []T`                            | O(n)            |
+| `Generator() <-chan T`                     | O(n)            |
 
+> func NewLinkedList
 
-### Circular Doubly LinkedList
+```go
+func NewLinkedList[T any]() *LinkedList[T]
+```
+
+Constructor.
+
+Example:
+
+```go
+l := list.NewLinkedList[int]()
+```
+
+> func NewLinkedListFrom
+
+```go
+func NewLinkedListFrom[T any](sl []T) *LinkedList[T]
+```
+
+Constructor given a slice `sl`.
+
+Example:
+
+```go
+l := list.NewLinkedListFrom[int]([]int{1, 2, 3, 4, 5})
+```

@@ -18,7 +18,7 @@ package list
 
 type List[T any] interface {
 	// Get the element given idx, err if out of range
-	Get(idx int) T
+	Get(idx int) (T, error)
 
 	// Append a element(s)
 	Append(ts ...T)
@@ -28,7 +28,7 @@ type List[T any] interface {
 	Add(idx int, t T) error
 
 	// Set the element given idx, err if out of range
-	Set(idx int, t T)
+	Set(idx int, t T) error
 
 	// Delete the element given idx, err if out of range
 	Delete(idx int) error

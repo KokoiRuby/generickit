@@ -38,7 +38,7 @@ func NewConcurrentListFrom[T any](sl []T) *ConcurrentList[T] {
 methods proxy to List[T]
 */
 
-func (l *ConcurrentList[T]) Get(idx int) T {
+func (l *ConcurrentList[T]) Get(idx int) (T, error) {
 	l.lock.RLock()
 	defer l.lock.RUnlock()
 	return l.List.Get(idx)
@@ -61,10 +61,10 @@ func (l *ConcurrentList[T]) Add(idx int, t T) (err error) {
 	return nil
 }
 
-func (l *ConcurrentList[T]) Set(idx int, t T) {
+func (l *ConcurrentList[T]) Set(idx int, t T) error {
 	l.lock.Lock()
 	defer l.lock.Unlock()
-	l.List.Set(idx, t)
+	return l.List.Set(idx, t)
 }
 
 // Delete proxy to slice.Delete & slice.Shrink

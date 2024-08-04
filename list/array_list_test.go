@@ -36,7 +36,9 @@ func (suite *ArrayListTestSuite) TestImplemented() {
 }
 
 func (suite *ArrayListTestSuite) TestGet() {
-	assert.Equal(suite.T(), 3, suite.l.Get(2))
+	v, err := suite.l.Get(2)
+	assert.Nil(suite.T(), err)
+	assert.Equal(suite.T(), 3, v)
 }
 
 func (suite *ArrayListTestSuite) TestAppend() {
@@ -53,7 +55,8 @@ func (suite *ArrayListTestSuite) TestAdd() {
 }
 
 func (suite *ArrayListTestSuite) TestSet() {
-	suite.l.Set(2, 33)
+	err := suite.l.Set(2, 33)
+	assert.Nil(suite.T(), err)
 	assert.Equal(suite.T(), []int{1, 2, 33, 4, 5}, suite.l.ToSlice())
 }
 

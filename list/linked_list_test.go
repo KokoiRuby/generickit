@@ -22,59 +22,55 @@ import (
 	"testing"
 )
 
-type ConcurrentListTestSuite struct {
+type LinkedListTestSuite struct {
 	suite.Suite
-	l *ConcurrentList[int]
+	l *LinkedList[int]
 }
 
-func (suite *ConcurrentListTestSuite) SetupTest() {
-	suite.l = NewConcurrentListFrom[int]([]int{1, 2, 3, 4, 5})
+func (suite *LinkedListTestSuite) SetupTest() {
+	suite.l = NewLinkedListFrom[int]([]int{1, 2, 3, 4, 5})
 }
 
-func (suite *ConcurrentListTestSuite) TestImplemented() {
-	var _ List[int] = suite.l
-}
-
-func (suite *ConcurrentListTestSuite) TestGet() {
+func (suite *LinkedListTestSuite) TestGet() {
 	v, err := suite.l.Get(2)
 	assert.Nil(suite.T(), err)
 	assert.Equal(suite.T(), 3, v)
 }
 
-func (suite *ConcurrentListTestSuite) TestAppend() {
+func (suite *LinkedListTestSuite) TestAppend() {
 	suite.l.Append(6)
 	assert.Equal(suite.T(), []int{1, 2, 3, 4, 5, 6}, suite.l.ToSlice())
 	suite.l.Append(7, 8)
 	assert.Equal(suite.T(), []int{1, 2, 3, 4, 5, 6, 7, 8}, suite.l.ToSlice())
 }
 
-func (suite *ConcurrentListTestSuite) TestAdd() {
+func (suite *LinkedListTestSuite) TestAdd() {
 	err := suite.l.Add(0, 0)
 	assert.Nil(suite.T(), err)
 	assert.Equal(suite.T(), []int{0, 1, 2, 3, 4, 5}, suite.l.ToSlice())
 }
 
-func (suite *ConcurrentListTestSuite) TestSet() {
+func (suite *LinkedListTestSuite) TestSet() {
 	err := suite.l.Set(2, 33)
 	assert.Nil(suite.T(), err)
 	assert.Equal(suite.T(), []int{1, 2, 33, 4, 5}, suite.l.ToSlice())
 }
 
-func (suite *ConcurrentListTestSuite) TestDelete() {
+func (suite *LinkedListTestSuite) TestDelete() {
 	err := suite.l.Delete(2)
 	assert.Nil(suite.T(), err)
 	assert.Equal(suite.T(), []int{1, 2, 4, 5}, suite.l.ToSlice())
 }
 
-func (suite *ConcurrentListTestSuite) TestLen() {
+func (suite *LinkedListTestSuite) TestLen() {
 	assert.Equal(suite.T(), 5, suite.l.Len())
 }
 
-func (suite *ConcurrentListTestSuite) TestCap() {
+func (suite *LinkedListTestSuite) TestCap() {
 	assert.Equal(suite.T(), 5, suite.l.Cap())
 }
 
-func (suite *ConcurrentListTestSuite) TestRange() {
+func (suite *LinkedListTestSuite) TestRange() {
 	sum := 0
 	assert.Nil(suite.T(), suite.l.Range(func(idx int, val int) error {
 		sum += val
@@ -83,11 +79,11 @@ func (suite *ConcurrentListTestSuite) TestRange() {
 	assert.Equal(suite.T(), 15, sum)
 }
 
-func (suite *ConcurrentListTestSuite) TestToSlice() {
+func (suite *LinkedListTestSuite) TestToSlice() {
 	assert.Equal(suite.T(), []int{1, 2, 3, 4, 5}, suite.l.ToSlice())
 }
 
-func (suite *ConcurrentListTestSuite) TestGenerator() {
+func (suite *LinkedListTestSuite) TestGenerator() {
 	gen := suite.l.Generator()
 	assert.Equal(suite.T(), 1, <-gen)
 	assert.Equal(suite.T(), 2, <-gen)
@@ -97,6 +93,6 @@ func (suite *ConcurrentListTestSuite) TestGenerator() {
 	assert.Equal(suite.T(), 0, <-gen)
 }
 
-func TestConcurrentListTestSuite(t *testing.T) {
-	suite.Run(t, new(ConcurrentListTestSuite))
+func TestLinkedListTestSuite(t *testing.T) {
+	suite.Run(t, new(LinkedListTestSuite))
 }

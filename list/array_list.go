@@ -16,7 +16,10 @@
 
 package list
 
-import "github.com/KokoiRuby/generickit/slice"
+import (
+	"errors"
+	"github.com/KokoiRuby/generickit/slice"
+)
 
 type ArrayList[T any] struct {
 	vals []T
@@ -34,8 +37,16 @@ func NewArrayListFrom[T any](sl []T) *ArrayList[T] {
 //	return l.vals
 //}
 
-func (l *ArrayList[T]) Get(idx int) T {
-	return l.vals[idx]
+func (l *ArrayList[T]) Get(idx int) (T, error) {
+	var v T
+	if l.IsOutOfRange(idx) {
+		return v, errors.New("index out of range")
+	}
+	return l.vals[idx], nil
+}
+
+func (l *ArrayList[T]) IsOutOfRange(idx int) bool {
+	return idx <= 0 || idx >= l.Len()
 }
 
 func (l *ArrayList[T]) Append(ts ...T) {
@@ -48,8 +59,12 @@ func (l *ArrayList[T]) Add(idx int, t T) (err error) {
 	return err
 }
 
-func (l *ArrayList[T]) Set(idx int, t T) {
+func (l *ArrayList[T]) Set(idx int, t T) error {
+	if l.IsOutOfRange(idx) {
+		return errors.New("index out of range")
+	}
 	l.vals[idx] = t
+	return nil
 }
 
 // Delete proxy to slice.Delete & slice.Shrink
