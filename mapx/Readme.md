@@ -10,6 +10,19 @@ import (
 )
 ```
 
+map interface:
+
+```go
+type mapi[K any, V any] interface {
+	Put(key K, val V) error
+	Get(key K) (V, bool)
+	Delete(k K) (V, bool)
+	Keys() []K
+	Values() []V
+	Len() uint64
+}
+```
+
 ### Auxiliary
 
 > func Keys
@@ -81,5 +94,32 @@ Example:
 kSl = []string{"a", "b", "c"}
 vSl = []int{1, 2, 3}
 
-m, _ := ToMap(suite.kSl, suite.vSl) // map[a:1 b:2 c:3]
+m, _ := mapx.ToMap[string, int](suite.kSl, suite.vSl) // map[a:1 b:2 c:3]
 ```
+
+### SyncMap
+
+A simple conccurent map using **decorator**.
+
+**U should always firtly consider using stdlib [sync.Map](https://pkg.go.dev/sync#Map) which provides better performance.**
+
+> func NewSyncMap
+
+```go
+func NewSyncMap[K comparable, V any]() *SyncMap[K, V]
+```
+
+Constructor.
+
+Example:
+
+```go
+m := mapx.NewSyncMap[string, int]
+```
+
+### HashMap
+
+### LinkedMap
+
+### MultiMap
+
