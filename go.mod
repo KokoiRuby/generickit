@@ -1,4 +1,4 @@
-module generickit
+module github.com/KokoiRuby/generickit
 
 go 1.22.2
 
