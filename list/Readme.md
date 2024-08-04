@@ -12,7 +12,9 @@ import (
 )
 ```
 
-List Interface
+List Interface:
+
+Note: **Add/Delete/ToSlice** actually generate/return a new slice, be careful in loop call.
 
 ```go
 type List[T any] interface {
@@ -41,7 +43,7 @@ type List[T any] interface {
 	// Range iteration
 	Range(fn func(idx int, t T) error) error
 
-	// ToSlice transform List to a slice, []T if no element
+	// ToSlice transform List to a slice, empty []T if no element
 	ToSlice() []T
 
 	// Generator yield-like
@@ -51,7 +53,48 @@ type List[T any] interface {
 
 ### ArrayList
 
+Implmented by Go built-in slice.
 
+| func                                       | Time Complexity |
+| ------------------------------------------ | --------------- |
+| `Get(idx int) T`                           | O(1)            |
+| `Append(ts ...T)`                          | O(1)            |
+| `Add(idx int, t T) error`                  | O(n)            |
+| `Set(idx int, t T)`                        | O(1)            |
+| `Delete(idx int) error`                    | O(n)            |
+| `Len() int`                                | O(1)            |
+| `Cap() int`                                | O(1)            |
+| `Range(fn func(idx int, t T) error) error` | O(n)            |
+| `ToSlice() []T`                            | O(1)            |
+| `Generator() <-chan T`                     | O(n)            |
+
+> func NewArrayList
+
+```go
+func NewArrayList[T any](cap int) *ArrayList[T]
+```
+
+Constructor given capacity.
+
+Example:
+
+```go
+l := list.NewArrayList[int](5)
+```
+
+> func NewArrayListFrom
+
+```go
+func NewArrayListFrom[T any](sl []T) *ArrayList[T]
+```
+
+Constructor given a slice.
+
+Example:
+
+```go
+l := list.NewArrayListFrom[int]([]int{1, 2, 3, 4, 5})
+```
 
 ### LinkedList
 
@@ -62,7 +105,3 @@ type List[T any] interface {
 
 
 ### Circular Doubly LinkedList
-
-
-
-### Concurrent List

@@ -4,6 +4,14 @@ Golang does not provide built-in set.
 
 The community also provides [golang-set](https://github.com/deckarep/golang-set): thread-safe and non-thread-safe high-performance sets for Go.
 
+**Before getting started, u need to import these packages in src.**
+
+```go
+import (
+    "github.com/KokoiRuby/generickit/setx"
+)
+```
+
 ### mapSet
 
 A thread-safe set implemented by built-in map (value is empty struct) & RW mutex.

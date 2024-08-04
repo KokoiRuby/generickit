@@ -8,6 +8,14 @@
 
 Golang usually uses **struct** to represent a Bean.
 
+**Before getting started, u need to import these packages in src.**
+
+```go
+import (
+    "github.com/KokoiRuby/generickit/bean/option"
+)
+```
+
 ### Option
 
 A Builder-like design pattern provides an elegant, extensible & human-readble way to construct a complicated object with options that are not all necessary.
@@ -28,9 +36,9 @@ Example:
 
 ```go
 func ExampleApply() {
-	srv, _ := NewServer("127.0.0.1:8080", 8080)
+	srv, _ := option.NewServer("127.0.0.1:8080", 8080)
 	fmt.Printf("%+v\n", srv)
-	srv, _ = NewServer("127.0.0.1:8080", 8080, WithProtocol("udp"), WithTimeout(10*time.Second), WithMaxConn(50))
+	srv, _ = option.NewServer("127.0.0.1:8080", 8080, WithProtocol("udp"), WithTimeout(10*time.Second), WithMaxConn(50))
 	fmt.Printf("%+v\n", srv)
 	// output:
 	// &{Addr:127.0.0.1:8080 Port:8080 Protocol:tcp Timeout:5s MaxConn:100 TLS:<nil>}
