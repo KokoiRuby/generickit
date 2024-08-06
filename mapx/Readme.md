@@ -7,6 +7,7 @@
 ```go
 import (
     "github.com/KokoiRuby/generickit/mapx"
+    "github.com/KokoiRuby/generickit/syncx"
 )
 ```
 
@@ -118,6 +119,78 @@ m := mapx.NewSyncMap[string, int]
 ```
 
 ### HashMap
+
+Go built-in map where key only supports comparable.
+
+**This HashMap supports complex data structure like Go struct as key.**
+
+Implementation: built-in map + singly linkedlist.
+
+```go
+// hashVal → bucket[0] → { &node{k, v} as root → &node{k, v} → &node{k, v}... } 
+//         → bucket[1] → { &node{k, v} as root → &node{k, v} → &node{k, v}... } 
+//         → ...
+//         → bucket[n] → { &node{k, v} as root → &node{k, v} → &node{k, v}... } 
+```
+
+> func NewHashMap
+
+```go
+func NewHashMap[K HashAble, V any](size uint) *HashMap[K, V]
+```
+
+Consturctor with size.
+
+Example:
+
+```go
+// HashAble shall be implemented by Key
+type HashAble interface {
+	Hash() uint64
+	Equal(k any) bool
+}
+
+type User struct {
+	id   uint
+	name string
+	age  uint8
+}
+
+func (u User) Hash() uint64 {
+	h := fnv.New64a()
+	_, err := h.Write([]byte(fmt.Sprintf("%d", u.id)))
+	if err != nil {
+		return 0
+	}
+	return h.Sum64()
+}
+
+func (u User) Equal(k any) bool {
+	// type assertion
+	if ku, ok := k.(User); ok {
+		if ku.id == u.id && ku.name == u.name && ku.age == u.age {
+			return true
+		}
+	}
+	return false
+}
+```
+
+```go
+m = mapx.NewHashMap[User, int](5)
+m.Put(User{id: 0, name: "Alice", age: 10}, 0)
+v, isFound := m.Get(User{id: 0, name: "Alice", age: 10})
+fmt.Println(v)
+fmt.Println(true)
+v, isFound = m.Get(User{id: 0, name: "Alice", age: 100})
+fmt.Println(v)
+fmt.Println(true)
+// output:
+// 0
+// true
+// 0
+// false
+```
 
 ### LinkedMap
 
