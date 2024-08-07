@@ -8,7 +8,7 @@ While syncx encapsulates with [generic](https://go.dev/blog/intro-generics).
 
 stblib [Pool](https://pkg.go.dev/sync#Pool) is a set of temporary objects that may be individually saved and retrieved.
 
-This pool is encapsulated with [generic](https://go.dev/blog/intro-generics). (Avoid type assert when dealing with `sync.Pool.Get()`)
+This pool is encapsulated with [generic](https://go.dev/blog/intro-generics). (Avoid type assertion when dealing with such as`sync.Pool.Get()`)
 
 > func NewPool
 
@@ -30,5 +30,34 @@ pool = syncx.NewPool[[]byte](func() []byte {
 fmt.Print(string(suite.pool.Get()))
 // Output:
 // a
+```
+
+### Map
+
+stdlib [Map](https://pkg.go.dev/sync#Map) is like a Go map[any]any but is safe for concurrent use by multiple goroutines without additional locking or coordination. Loads, stores, and deletes run in amortized constant time.
+
+This Map is encapsulated with [generic](https://go.dev/blog/intro-generics). (Avoid type assert when dealing with such as `sync.Map.Load()`)
+
+> func NewMap
+
+```go
+func NewMap[K comparable, V any]() *Map[K, V]
+```
+
+Constructor。
+
+Example:
+
+```go
+func ExampleMap_Load() {
+	var m syncx.Map[string, int]
+	m.Store("a", 1)
+	val, ok := m.Load("a")
+	if ok {
+		fmt.Println(val)
+	}
+	// Output:
+	// 123
+}
 ```
 
