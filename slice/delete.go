@@ -20,13 +20,15 @@ import (
 	"golang.org/x/exp/constraints"
 )
 
-func Delete[T any](dst []T, idx int) ([]T, error) {
+func Delete[T any](dst []T, idx int) (T, []T, error) {
 	length := len(dst)
+	var t T
 	if idx < 0 || idx > length-1 {
-		return dst, ErrIdxOutOfRange(length, idx)
+		return t, dst, ErrIdxOutOfRange(length, idx)
 	}
+	t = dst[idx]
 	dst = append(dst[:idx], dst[idx+1:]...)
-	return dst, nil
+	return t, dst, nil
 }
 
 func DeleteAfter[T any](dst []T, idx int) ([]T, error) {
