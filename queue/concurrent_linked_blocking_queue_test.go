@@ -15,26 +15,3 @@
  */
 
 package queue
-
-import (
-	"context"
-	"unsafe"
-)
-
-// Queue is non-blocking
-type Queue[T any] interface {
-	Enqueue(t T) error
-	Dequeue() (T, error)
-}
-
-// BlockingQueue using ctx timeout
-type BlockingQueue[T any] interface {
-	Enqueue(ctx context.Context, t T) error
-	Dequeue(ctx context.Context) (T, error)
-}
-
-type node[T any] struct {
-	val T
-	// *node[T], unsafe.Pointer can be transformed into pointer of any type
-	next unsafe.Pointer
-}
