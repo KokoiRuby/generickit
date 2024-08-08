@@ -68,11 +68,10 @@ func (l *ConcurrentList[T]) Set(idx int, t T) error {
 }
 
 // Delete proxy to slice.Delete & slice.Shrink
-func (l *ConcurrentList[T]) Delete(idx int) (err error) {
+func (l *ConcurrentList[T]) Delete(idx int) (v T, err error) {
 	l.lock.Lock()
 	defer l.lock.Unlock()
-	err = l.List.Delete(idx)
-	return err
+	return l.List.Delete(idx)
 }
 
 func (l *ConcurrentList[T]) Len() int {

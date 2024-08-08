@@ -68,10 +68,10 @@ func (l *ArrayList[T]) Set(idx int, t T) error {
 }
 
 // Delete proxy to slice.Delete & slice.Shrink
-func (l *ArrayList[T]) Delete(idx int) (err error) {
-	l.vals, err = slice.Delete(l.vals, idx)
+func (l *ArrayList[T]) Delete(idx int) (v T, err error) {
+	v, l.vals, err = slice.Delete(l.vals, idx)
 	l.vals = slice.Shrink(l.vals)
-	return err
+	return v, nil
 }
 
 func (l *ArrayList[T]) Len() int {

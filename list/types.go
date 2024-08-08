@@ -31,7 +31,7 @@ type List[T any] interface {
 	Set(idx int, t T) error
 
 	// Delete the element given idx, err if out of range
-	Delete(idx int) error
+	Delete(idx int) (T, error)
 
 	// Len Length of
 	Len() int

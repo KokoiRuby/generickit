@@ -126,16 +126,17 @@ func (l *LinkedList[T]) Set(idx int, val T) error {
 	return nil
 }
 
-func (l *LinkedList[T]) Delete(idx int) error {
+func (l *LinkedList[T]) Delete(idx int) (T, error) {
 	if l.IsOutOfRange(idx) {
-		return errors.New("index out of range")
+		var t T
+		return t, errors.New("index out of range")
 	}
 	toDelete := l.find(idx)
 	toDelete.prev.next = toDelete.next
 	toDelete.next.prev = toDelete.prev
 	toDelete.next, toDelete.prev = nil, nil
 	l.length--
-	return nil
+	return toDelete.val, nil
 }
 
 func (l *LinkedList[T]) Len() int {

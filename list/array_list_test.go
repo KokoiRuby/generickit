@@ -61,7 +61,8 @@ func (suite *ArrayListTestSuite) TestSet() {
 }
 
 func (suite *ArrayListTestSuite) TestDelete() {
-	err := suite.l.Delete(2)
+	v, err := suite.l.Delete(2)
+	assert.Equal(suite.T(), 3, v)
 	assert.Nil(suite.T(), err)
 	assert.Equal(suite.T(), []int{1, 2, 4, 5}, suite.l.ToSlice())
 }
