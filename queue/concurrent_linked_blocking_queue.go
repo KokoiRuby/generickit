@@ -39,7 +39,7 @@ func NewConcurrentLinkedBlockingQueue[T any](capacity int) *ConcurrentLinkedBloc
 		capacity:    capacity,
 		list:        list.NewLinkedList[T](),
 		enqueueCond: sync.NewCond(mutex),
-		dequeueCond: sync.NewCond(mutex.RLocker()),
+		dequeueCond: sync.NewCond(mutex),
 	}
 }
 
