@@ -35,21 +35,66 @@ func (suite *ConcurrentLinkedBlockingQueueTestSuite) SetupTest() {
 	suite.q2 = NewConcurrentLinkedBlockingQueue[int](-1)
 }
 
-func (suite *ConcurrentLinkedBlockingQueueTestSuite) TestEnqueue() {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+func (suite *ConcurrentLinkedBlockingQueueTestSuite) TestEnqueueBound() {
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
+
+	go func() {
+		for i := 0; i < 3; i++ {
+			err := suite.q1.Enqueue(ctx, i)
+			assert.Nil(suite.T(), err)
+		}
+		time.Sleep(2 * time.Second)
+		err := suite.q1.Enqueue(ctx, 4)
+		assert.Equal(suite.T(), context.DeadlineExceeded, err)
+	}()
+
+	// trigger ctxt timeout
+	time.Sleep(1 * time.Second)
+	v, err := suite.q1.Dequeue(ctx)
+	assert.Nil(suite.T(), err)
+	assert.Equal(suite.T(), v, 0)
+}
+
+func (suite *ConcurrentLinkedBlockingQueueTestSuite) TestEnqueueUnBound() {
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	defer cancel()
+
+	for i := 0; i < 10; i++ {
+		err := suite.q2.Enqueue(ctx, i)
+		assert.Nil(suite.T(), err)
+	}
+
+	time.Sleep(2 * time.Second)
+	err := suite.q2.Enqueue(ctx, 10)
+	assert.Equal(suite.T(), context.DeadlineExceeded, err)
+}
+
+func (suite *ConcurrentLinkedBlockingQueueTestSuite) TestDequeue() {
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancel()
+
 	err := suite.q1.Enqueue(ctx, 1)
 	assert.Nil(suite.T(), err)
 	err = suite.q1.Enqueue(ctx, 2)
 	assert.Nil(suite.T(), err)
 	err = suite.q1.Enqueue(ctx, 3)
 	assert.Nil(suite.T(), err)
+
+	go func() {
+		for i := 1; i < 4; i++ {
+			v, err := suite.q1.Dequeue(ctx)
+			assert.Nil(suite.T(), err)
+			assert.Equal(suite.T(), i, v)
+		}
+		time.Sleep(2 * time.Second)
+		_, err = suite.q1.Dequeue(ctx)
+		assert.Equal(suite.T(), context.DeadlineExceeded, err)
+	}()
+
+	time.Sleep(1 * time.Second)
 	err = suite.q1.Enqueue(ctx, 4)
-	assert.Equal(suite.T(), context.DeadlineExceeded, err)
-}
-
-func (suite *ConcurrentLinkedBlockingQueueTestSuite) TestDequeue() {
-
+	assert.Nil(suite.T(), err)
 }
 
 func TestConcurrentLinkedBlockingQueueTestSuite(t *testing.T) {
