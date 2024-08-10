@@ -97,6 +97,26 @@ func (suite *ConcurrentLinkedBlockingQueueTestSuite) TestDequeue() {
 	assert.Nil(suite.T(), err)
 }
 
+func (suite *ConcurrentLinkedBlockingQueueTestSuite) TestLen() {
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancel()
+	for i := 0; i < 3; i++ {
+		err := suite.q1.Enqueue(ctx, i)
+		assert.Nil(suite.T(), err)
+	}
+	assert.Equal(suite.T(), suite.q1.Len(), 3)
+}
+
+func (suite *ConcurrentLinkedBlockingQueueTestSuite) TestToSlice() {
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancel()
+	for i := 0; i < 3; i++ {
+		err := suite.q1.Enqueue(ctx, i)
+		assert.Nil(suite.T(), err)
+	}
+	assert.Equal(suite.T(), []int{0, 1, 2}, suite.q1.ToSlice())
+}
+
 func TestConcurrentLinkedBlockingQueueTestSuite(t *testing.T) {
 	suite.Run(t, new(ConcurrentLinkedBlockingQueueTestSuite))
 }

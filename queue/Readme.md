@@ -20,3 +20,31 @@ import (
 
 ### Concurrent Linked Blocking Queue
 
+Leverage Go built-in sync primitive [sync.RWMutex](https://pkg.go.dev/sync#RWMutex) & [sync.Cond](https://pkg.go.dev/sync#Cond) to secure concurrency.
+
+> func NewConcurrentLinkedBlockingQueue
+
+```go
+func NewConcurrentLinkedBlockingQueue[T any](capacity int) *ConcurrentLinkedBlockingQueue[T]
+```
+
+Constructor. Whether queue is bound is controlled by `capacity` where negative val indicates unbound.
+
+Examples:
+
+```go
+func ExampleConcurrentLinkedBlockingQueue() {
+	q := queue.NewConcurrentLinkedBlockingQueue[int](3)
+	_ = q.Enqueue(1)
+	val, err := q.Dequeue()
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(val)
+	// Output:
+	// 1
+}
+```
+
+
+
