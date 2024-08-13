@@ -4,8 +4,8 @@ A queue is a linear structure that follows **FIFO** order in which the operation
 
 Below queues are provided:
 
-- Concurrent [Blocking] Linked Queue
-- ...
+- Concurrent Linked [Blocking] Queue
+- Concurrent Array Blocking Queue
 
 **Before getting started, u need to import these packages in src.**
 
@@ -71,6 +71,47 @@ Example:
 ```go
 func ExampleConcurrentLinkedBlockingQueue() {
 	q := queue.NewConcurrentLinkedBlockingQueue[int](3)
+    ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+    
+	_ = q.Enqueue(1)
+	val, err := q.Dequeue()
+    switch err {
+	case context.Canceled:
+        // cancel() called
+	case context.DeadlineExceeded:
+		// timeout
+	case nil:
+		fmt.Println(val)
+	default:
+		// TODO
+	}
+	// Output:
+	// 1
+}
+```
+
+### Concurrent Array Blocking Queue
+
+Leverage Go built-in sync primitive [sync.RWMutex](https://pkg.go.dev/sync#RWMutex) & [sync.Cond](https://pkg.go.dev/sync#Cond) to secure concurrency & blocking.
+
+Leverage Go built-in [context](https://pkg.go.dev/context) to achieve timeout control.
+
+**Note: This queue only provides bound version.** (slice expansion overhead if unbound)
+
+> func NewConcurrentArrayBlockingQueue
+
+```go
+func NewConcurrentArrayBlockingQueue[T any](capacity int) *ConcurrentArrayBlockingQueue[T]
+```
+
+Constructor.
+
+Example:
+
+```go
+func ExampleConcurrentLinkedBlockingQueue() {
+	q := queue.NewConcurrentArrayBlockingQueue[int](3)
     ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
     

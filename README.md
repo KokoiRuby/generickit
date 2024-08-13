@@ -18,6 +18,6 @@ $ go get github.com/KokoiRuby/generickit@latest
 - [mapx](https://github.com/KokoiRuby/generickit/tree/main/mapx): Keys, Values, KeysValues, ToMap, SyncMap, HashMap.
 - [setx](https://github.com/KokoiRuby/generickit/tree/main/setx): MapSet.
 - [list](https://github.com/KokoiRuby/generickit/tree/main/list): ArrayList, ConcurrentList, LinkedList (Circular + Doubly).
-- [queue](https://github.com/KokoiRuby/generickit/tree/main/queue): ConcurrentLinked[Blocking]Queue
+- [queue](https://github.com/KokoiRuby/generickit/tree/main/queue): ConcurrentLinked[Blocking]Queue, ConcurrentArrayBlockingQueue.
 - [bean](https://github.com/KokoiRuby/generickit/tree/main/bean): Option.
 - [sync](https://github.com/KokoiRuby/generickit/tree/main/syncx): Pool, Map.
