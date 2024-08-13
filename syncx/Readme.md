@@ -44,7 +44,7 @@ This Map is encapsulated with [generic](https://go.dev/blog/intro-generics). (Av
 func NewMap[K comparable, V any]() *Map[K, V]
 ```
 
-Constructor。
+Constructor.
 
 Example:
 
@@ -58,6 +58,32 @@ func ExampleMap_Load() {
 	}
 	// Output:
 	// 123
+}
+```
+
+### AtomicValue
+
+A `Value` provides an atomic load and store of a consistently typed value. The zero value for a Value returns nil from Load. Once Store has been called, a Value must not be copied.
+
+This Value is encapsulated with [generic](https://go.dev/blog/intro-generics). (Avoid type assert when dealing with such as `sync.atomic.Value.Load()`)
+
+> func NewValue
+
+```go
+func NewValue[T any](t T) *Value[T]
+```
+
+Constructor.
+
+Example:
+
+```go
+func ExampleMap_Load() {
+	var val syncx.Value[int]
+	val.Store(1)
+    fmt.Print(val.Load())
+	// Output:
+	// 1
 }
 ```
 
